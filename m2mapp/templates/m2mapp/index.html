@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mant to Many</title>
+</head>
+<body>
+    <form method="post">
+        {%csrf_token%}
+        
+        <select name="teacher">
+            {% for teacher in teacher %}
+            <option value="{{teacher.id}}">{{teacher.teacher_name}} </option>
+            {%endfor%}
+        </select>  
+        
+        <input type="submit" value="Submit">
+    </form>
+    <form method="post"> 
+        {% csrf_token %}
+        <select name="student">
+            {%for student in student %}
+            <option value="{{student.id}}">{{student.st_name}} </option>
+            {%endfor%} 
+        </select>  
+        
+        <input type="submit" value="Submit">
+    </form>
+    {% if selected_teacher %}
+    <h2>Students taught by Teacher -: {{ selected_teacher.teacher_name }}:</h2>
+    <ul>
+        {% for student in selected_teacher.students.all %}
+            <li>{{ student.st_name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if selected_student %}
+    <h2>Teacher of {{ selected_student.st_name }}:</h2>
+    <ul>
+        {% for teacher in selected_student.teachers.all %}
+            <li>{{ teacher.teacher_name }}</li>
+        {% endfor %}
+    </ul>
+
+    {%endif%}
+    
+    
+</body>
+</html>
