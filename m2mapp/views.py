@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from .models import teachers,students
+from .models import teachers,students,certificate
+from django.http import HttpResponse
+import datetime
 
 # Create your views here.
 
@@ -25,3 +27,22 @@ def display_data(request):
          }
 
     return render(request,'m2mapp/index.html',context)
+
+
+def display_certificate(request,teacher_id, student_id):
+   teacher = teachers.objects.get(id=teacher_id)
+   student = students.objects.get(id=student_id)
+
+   certificate = certificate(
+   
+   issue_date = datetime.date.today(),
+   student = student,
+   teacher = teacher,
+   title = "Certificate for teacher and student",
+ )
+   certificate.save()
+   
+   
+   
+   return HttpResponse("Certificate Genererate Successfully")
+   
